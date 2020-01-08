@@ -1,5 +1,9 @@
 package whatamidoing;
+
 import battlecode.common.*;
+
+import java.util.ArrayList;
+import java.util.Comparator;
 
 public strictfp class RobotPlayer {
     static RobotController rc;
@@ -32,15 +36,33 @@ public strictfp class RobotPlayer {
                 // You can add the missing ones or rewrite this into your own control structure.
                 System.out.println("I'm a " + rc.getType() + "! Location " + rc.getLocation());
                 switch (rc.getType()) {
-                    case HQ:                 HQ.runHQ();                break;
-                    case MINER:              Miner.runMiner();             break;
-                    case REFINERY:           Refinery.runRefinery();          break;
-                    case VAPORATOR:          Vaporator.runVaporator();         break;
-                    case DESIGN_SCHOOL:      DesignSchool.runDesignSchool();      break;
-                    case FULFILLMENT_CENTER: FullfillmentCenter.runFulfillmentCenter(); break;
-                    case LANDSCAPER:         Landscaper.runLandscaper();        break;
-                    case DELIVERY_DRONE:     DeliveryDrone.runDeliveryDrone();     break;
-                    case NET_GUN:            NetGun.runNetGun();            break;
+                    case HQ:
+                        HQ.runHQ();
+                        break;
+                    case MINER:
+                        Miner.runMiner();
+                        break;
+                    case REFINERY:
+                        Refinery.runRefinery();
+                        break;
+                    case VAPORATOR:
+                        Vaporator.runVaporator();
+                        break;
+                    case DESIGN_SCHOOL:
+                        DesignSchool.runDesignSchool();
+                        break;
+                    case FULFILLMENT_CENTER:
+                        FullfillmentCenter.runFulfillmentCenter();
+                        break;
+                    case LANDSCAPER:
+                        Landscaper.runLandscaper();
+                        break;
+                    case DELIVERY_DRONE:
+                        DeliveryDrone.runDeliveryDrone();
+                        break;
+                    case NET_GUN:
+                        NetGun.runNetGun();
+                        break;
                 }
 
                 // Clock.yield() makes the robot wait until the next turn, then it will perform this loop again
@@ -54,6 +76,26 @@ public strictfp class RobotPlayer {
     }
 
 
+    //TODO: can be more efficient (no
+    static ArrayList<MapLocation> getMapLocationsInRadius(RobotType robotType, RobotController rc) {
+        ArrayList<MapLocation> locations = new ArrayList<MapLocation>();
+
+        int max_dist = (int) Math.sqrt(robotType.HQ.sensorRadiusSquared);
+
+        for (int x = -max_dist; x <= max_dist; ++x) {
+            for (int y = -max_dist; y <= max_dist; ++y) {
+                MapLocation ml = rc.getLocation().translate(x, y);
+
+                if (rc.canSenseLocation(ml)) {
+                    locations.add(ml);
+                }
+            }
+        }
+
+        locations.sort(Comparator.comparingInt((MapLocation m) -> rc.getLocation().distanceSquaredTo(m)));
+
+        return locations;
+    }
 
 
 }
