@@ -136,7 +136,6 @@ task update {
     doLast {
         //overwrites stored version number
         new File(projectDir, "version.txt").text = new URL("https://2020.battlecode.org/version.txt").text.trim()
-
         //overwrites cached version number
         versions.battlecode = new File(projectDir, "version.txt").text
         println("Update Complete")
