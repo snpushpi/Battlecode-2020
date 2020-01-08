@@ -12,8 +12,10 @@ public class HQ extends RobotPlayer {
 
     static void runHQ() throws GameActionException {
         if (turnCount == 1) {
-            ArrayList<MapLocation> locations = getMapLocationsInRadius(RobotType.HQ, rc);
-            
+            ArrayList<MapLocation> locations = getMapLocationsInRadius(RobotType.HQ);
+
+
+
             //TODO: check if it is possible to build north
             //TODO: build in best possible direction
 

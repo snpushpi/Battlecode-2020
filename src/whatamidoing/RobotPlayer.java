@@ -77,7 +77,7 @@ public strictfp class RobotPlayer {
 
 
     //TODO: can be more efficient (no
-    static ArrayList<MapLocation> getMapLocationsInRadius(RobotType robotType, RobotController rc) {
+    static ArrayList<MapLocation> getMapLocationsInRadius(RobotType robotType) {
         ArrayList<MapLocation> locations = new ArrayList<MapLocation>();
 
         int max_dist = (int) Math.sqrt(robotType.HQ.sensorRadiusSquared);
