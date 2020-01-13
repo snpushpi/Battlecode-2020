@@ -10,15 +10,26 @@ import java.util.Comparator;
 public class Miner extends RobotPlayer {
 
 
-    RobotInfo hq;
-    MapLocation hqloc;
+    static RobotInfo hq;
+    static MapLocation hqloc;
+    static int designsBuilt;
+
     static void initializeMiner() throws GameActionException {
         RobotInfo hq = rc.senseNearbyRobots(3, rc.getTeam())[0];
         MapLocation hqloc = hq.getLocation();
+        designsBuilt = 0;
     }
     static void runMiner() throws GameActionException {
         MapLocation here = rc.getLocation();
 
+        if(rc.getTeamSoup() > 400 && designsBuilt == 0){ // each miner builds at most 1 design schools
+            for (Direction d : directions) {
+                if (rc.canBuildRobot(RobotType.DESIGN_SCHOOL, d)) {
+                    rc.buildRobot(RobotType.DESIGN_SCHOOL, d);
+                    break;
+                }
+            }
+        }
         if (rc.getSoupCarrying() > 0) {
             if (nearestRefinery() != null) { //stores soup to refinery if nearby refinery
                 Direction moveDir = here.directionTo(nearestRefinery());
