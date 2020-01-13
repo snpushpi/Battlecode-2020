@@ -10,9 +10,13 @@ import java.util.Comparator;
 public class Miner extends RobotPlayer {
 
 
-    static void runMiner() throws GameActionException {
+    RobotInfo hq;
+    MapLocation hqloc;
+    static void initiateMiner() throws GameActionException {
         RobotInfo hq = rc.senseNearbyRobots(3, rc.getTeam())[0];
         MapLocation hqloc = hq.getLocation();
+    }
+    static void runMiner() throws GameActionException {
         MapLocation here = rc.getLocation();
 
         if (rc.getSoupCarrying() > 0) {
@@ -33,20 +37,22 @@ public class Miner extends RobotPlayer {
                 }
             }
         } else {
-            for(Direction d : directions) {
-                if (rc.canMineSoup(d)){
-                    rc.mineSoup(d);
-                }
-            }
+
 
             Direction moveDir = here.directionTo(nearestSoup());
+               if (rc.canMineSoup(moveDir)){
+                    rc.mineSoup(moveDir);
+                }
+
+
+
             if (rc.canMove(moveDir)) {
                 rc.move(moveDir);
             }
 
         }
     }
-
+ //TODO Debug why miner don't move at first few rounds
     static MapLocation nearestRefinery() throws GameActionException {
         ArrayList<MapLocation> locs = getMapLocationsInRadius(rc.getType());
         for (MapLocation x : locs){
@@ -62,6 +68,7 @@ public class Miner extends RobotPlayer {
         ArrayList<MapLocation> locs = getMapLocationsInRadius(rc.getType());
         for (MapLocation x : locs){
             if (rc.senseSoup(x) > 0){
+                System.out.println("FOUND SOUP! at" + x.toString());
                 return x;
             }
         }
