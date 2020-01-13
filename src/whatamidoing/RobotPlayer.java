@@ -136,4 +136,16 @@ public strictfp class RobotPlayer {
     }
 
 
+
+    static MapLocation nearestSoup() throws GameActionException {
+        ArrayList<MapLocation> locs = getMapLocationsInRadius(rc.getType());
+        for (MapLocation x : locs){
+            if (rc.senseSoup(x) > 0){
+                System.out.println("FOUND SOUP! at" + x.toString());
+                return x;
+            }
+        }
+        return rc.getLocation();
+    }
+
 }

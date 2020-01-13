@@ -20,16 +20,24 @@ public class HQ extends RobotPlayer {
     }
 
     static void runHQ() throws GameActionException {
-        if (turnCount == 1 || rc.getTeamSoup() > 400) { // Spawn Miners by Default if not doing anything else
+        if (turnCount == 1 || (rc.getTeamSoup() > 300 && numMinersCreated < 4)) { // Spawn Miners by Default if not doing anything else
             ArrayList<MapLocation> locations = getMapLocationsInRadius(RobotType.HQ);
 
 
             //TODO: check if it is possible to build north
             //TODO: build in best possible direction
 
+            Direction buildDir = rc.getLocation().directionTo(nearestSoup());
+
+            // prioritizing building towards soup
+            if (rc.canBuildRobot(RobotType.MINER, buildDir)) {
+                rc.buildRobot(RobotType.MINER, buildDir);
+                numMinersCreated++;
+            }
             for (Direction d : directions) {
                 if (rc.canBuildRobot(RobotType.MINER, d)) {
                     rc.buildRobot(RobotType.MINER, d);
+                    numMinersCreated++;
                 }
             }
 

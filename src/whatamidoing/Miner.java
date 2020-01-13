@@ -64,17 +64,6 @@ public class Miner extends RobotPlayer {
         return null;
     }
 
-    static MapLocation nearestSoup() throws GameActionException {
-        ArrayList<MapLocation> locs = getMapLocationsInRadius(rc.getType());
-        for (MapLocation x : locs){
-            if (rc.senseSoup(x) > 0){
-                System.out.println("FOUND SOUP! at" + x.toString());
-                return x;
-            }
-        }
-        return rc.getLocation();
-    }
-
     static MapLocation optRefineryLocation(int[][] soupLocation, MapLocation baseLocation, int numMiners) {
         // Computes optimal place of refinery given the location of soup, base and estimated number of miners will be used
         int[] baseW = {baseLocation.x, baseLocation.y, 5 * numMiners};
