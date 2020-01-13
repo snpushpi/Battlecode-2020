@@ -1,9 +1,6 @@
 package whatamidoing;
 
-import battlecode.common.Direction;
-import battlecode.common.GameActionException;
-import battlecode.common.MapLocation;
-import battlecode.common.RobotInfo;
+import battlecode.common.*;
 
 import java.lang.Math;
 import java.util.ArrayList;
@@ -18,16 +15,47 @@ public class Miner extends RobotPlayer {
         MapLocation hqloc = hq.getLocation();
         MapLocation here = rc.getLocation();
 
-        if(rc.getSoupCarrying() > 0){
+        if (rc.getSoupCarrying() > 0) {
+            if (nearestRefinery() != null) { //stores soup to refinery if nearby refinery
+                Direction moveDir = here.directionTo(nearestRefinery());
+                if (here.isAdjacentTo(nearestRefinery())) {
+                    if (rc.canDepositSoup(moveDir)) {
+                        rc.depositSoup(moveDir, rc.getSoupCarrying());
+                    }
+                }
+                tryMove(moveDir);
+            } else if (rc.getTeamSoup() > 200) { //builds refinery if no nearby refinery
+                for (Direction d : directions) {
+                    if (rc.canBuildRobot(RobotType.REFINERY, d)) {
+                        rc.buildRobot(RobotType.REFINERY, d);
+                        break;
+                    }
+                }
+            }
+        } else {
+            for(Direction d : directions) {
+                if (rc.canMineSoup(d)){
+                    rc.mineSoup(d);
+                }
+            }
 
-        }
-
-        else{
             Direction moveDir = here.directionTo(nearestSoup());
-            if(rc.canMove(moveDir)) {
+            if (rc.canMove(moveDir)) {
                 rc.move(moveDir);
             }
+
         }
+    }
+
+    static MapLocation nearestRefinery() throws GameActionException {
+        ArrayList<MapLocation> locs = getMapLocationsInRadius(rc.getType());
+        for (MapLocation x : locs){
+            RobotInfo atx = rc.senseRobotAtLocation(x);
+            if (atx != null && atx.getTeam() == rc.getTeam() && atx.getType() == RobotType.REFINERY){
+                return x;
+            }
+        }
+        return null;
     }
 
     static MapLocation nearestSoup() throws GameActionException {

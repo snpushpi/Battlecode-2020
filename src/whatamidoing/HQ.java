@@ -11,7 +11,7 @@ public class HQ extends RobotPlayer {
 
 
     static void runHQ() throws GameActionException {
-        if (turnCount == 1 || rc.getTeamSoup() > 400) {
+        if (turnCount == 1 || rc.getTeamSoup() > 500) { // Spawn Miners by Default if not doing anything else
             ArrayList<MapLocation> locations = getMapLocationsInRadius(RobotType.HQ);
 
 

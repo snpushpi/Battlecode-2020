@@ -116,5 +116,11 @@ public strictfp class RobotPlayer {
         }
     }
 
+    static void tryMove(Direction moveDir) throws GameActionException{
+        if (rc.canMove(moveDir)){
+            rc.move(moveDir);
+        }
+    }
+
 
 }
