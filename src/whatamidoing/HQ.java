@@ -34,11 +34,8 @@ public class HQ extends RobotPlayer {
                 rc.buildRobot(RobotType.MINER, buildDir);
                 numMinersCreated++;
             }
-            for (Direction d : directions) {
-                if (rc.canBuildRobot(RobotType.MINER, d)) {
-                    rc.buildRobot(RobotType.MINER, d);
-                    numMinersCreated++;
-                }
+            if(mustBuild(RobotType.MINER)){
+                numMinersCreated++;
             }
 
         }

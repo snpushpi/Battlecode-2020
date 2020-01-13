@@ -148,4 +148,14 @@ public strictfp class RobotPlayer {
         return rc.getLocation();
     }
 
+    static boolean mustBuild(RobotType type) throws GameActionException {
+        for (Direction d : directions) {
+            if (rc.canBuildRobot(RobotType.DESIGN_SCHOOL, d)) {
+                rc.buildRobot(RobotType.DESIGN_SCHOOL, d);
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

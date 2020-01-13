@@ -1,11 +1,14 @@
 package whatamidoing;
 
 import battlecode.common.GameActionException;
+import battlecode.common.RobotType;
 
 public class DesignSchool extends RobotPlayer {
 
     static void runDesignSchool() throws GameActionException {
-        //TODO
+        if(rc.getTeamSoup() > 350){
+            mustBuild(RobotType.LANDSCAPER);
+        }
     }
 
 }

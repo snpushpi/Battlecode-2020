@@ -21,15 +21,12 @@ public class Miner extends RobotPlayer {
     }
     static void runMiner() throws GameActionException {
         MapLocation here = rc.getLocation();
-
+/*
         if(rc.getTeamSoup() > 400 && designsBuilt == 0){ // each miner builds at most 1 design schools
-            for (Direction d : directions) {
-                if (rc.canBuildRobot(RobotType.DESIGN_SCHOOL, d)) {
-                    rc.buildRobot(RobotType.DESIGN_SCHOOL, d);
-                    break;
-                }
+            if(mustBuild(RobotType.DESIGN_SCHOOL)){
+                designsBuilt++;
             }
-        }
+        } */
         if (rc.getSoupCarrying() > 0) {
             if (nearestRefinery() != null) { //stores soup to refinery if nearby refinery
                 Direction moveDir = here.directionTo(nearestRefinery());
@@ -40,12 +37,7 @@ public class Miner extends RobotPlayer {
                 }
                 tryMove(moveDir);
             } else if (rc.getTeamSoup() > 200) { //builds refinery if no nearby refinery
-                for (Direction d : directions) {
-                    if (rc.canBuildRobot(RobotType.REFINERY, d)) {
-                        rc.buildRobot(RobotType.REFINERY, d);
-                        break;
-                    }
-                }
+                mustBuild(RobotType.REFINERY);
             }
         } else {
 
