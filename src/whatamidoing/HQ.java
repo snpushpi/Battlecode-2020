@@ -11,7 +11,7 @@ public class HQ extends RobotPlayer {
 
 
     static void runHQ() throws GameActionException {
-        if (turnCount == 1) {
+        if (turnCount == 1 || rc.getTeamSoup() > 400) {
             ArrayList<MapLocation> locations = getMapLocationsInRadius(RobotType.HQ);
 
 

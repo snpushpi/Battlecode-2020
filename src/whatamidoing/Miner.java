@@ -1,8 +1,12 @@
 package whatamidoing;
 
+import battlecode.common.Direction;
 import battlecode.common.GameActionException;
 import battlecode.common.MapLocation;
+import battlecode.common.RobotInfo;
+
 import java.lang.Math;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -10,6 +14,30 @@ public class Miner extends RobotPlayer {
 
 
     static void runMiner() throws GameActionException {
+        RobotInfo hq = rc.senseNearbyRobots(3, rc.getTeam())[0];
+        MapLocation hqloc = hq.getLocation();
+        MapLocation here = rc.getLocation();
+
+        if(rc.getSoupCarrying() > 0){
+
+        }
+
+        else{
+            Direction moveDir = here.directionTo(nearestSoup());
+            if(rc.canMove(moveDir)) {
+                rc.move(moveDir);
+            }
+        }
+    }
+
+    static MapLocation nearestSoup() throws GameActionException {
+        ArrayList<MapLocation> locs = getMapLocationsInRadius(rc.getType());
+        for (MapLocation x : locs){
+            if (rc.senseSoup(x) > 0){
+                return x;
+            }
+        }
+        return rc.getLocation();
     }
 
     static MapLocation optRefineryLocation(int[][] soupLocation, MapLocation baseLocation, int numMiners) {

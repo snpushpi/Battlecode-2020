@@ -31,7 +31,8 @@ public strictfp class RobotPlayer {
         RobotPlayer.rc = rc;
 
         turnCount = 0;
-        perceive();
+        knownMap = new HashMap<>();
+        /// perceive(); //// buggy so I'll leave this out for sprint submission
         System.out.println("I'm a " + rc.getType() + " and I just got created!");
         while (true) {
             turnCount += 1;
