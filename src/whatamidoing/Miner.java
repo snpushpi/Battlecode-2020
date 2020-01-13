@@ -10,7 +10,6 @@ public class Miner extends RobotPlayer {
 
 
     static void runMiner() throws GameActionException {
-        //TODO
     }
 
     static MapLocation optRefineryLocation(int[][] soupLocation, MapLocation baseLocation, int numMiners) {

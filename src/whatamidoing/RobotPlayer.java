@@ -4,16 +4,21 @@ import battlecode.common.*;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 
 public strictfp class RobotPlayer {
     static RobotController rc;
 
-    static Direction[] directions = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
-    static RobotType[] spawnedByMiner = {RobotType.REFINERY, RobotType.VAPORATOR, RobotType.DESIGN_SCHOOL,
+    static final Direction[] directions = {Direction.NORTH,Direction.EAST,Direction.SOUTH,Direction.WEST,
+            Direction.NORTHEAST,Direction.NORTHWEST,Direction.SOUTHEAST,Direction.SOUTHWEST};
+    static final RobotType[] spawnedByMiner = {RobotType.REFINERY, RobotType.VAPORATOR, RobotType.DESIGN_SCHOOL,
             RobotType.FULFILLMENT_CENTER, RobotType.NET_GUN};
 
     static int turnCount;
 
+    static HashMap<MapLocation, HashMap<String, Object>> knownMap; // Known map properties: soup, elevation, flood
+
+    static final String[] mapProperties = {"soup", "elevation", "flood" };
     /**
      * run() is the method that is called when a robot is instantiated in the Battlecode world.
      * If this method returns, the robot dies!
@@ -26,7 +31,7 @@ public strictfp class RobotPlayer {
         RobotPlayer.rc = rc;
 
         turnCount = 0;
-
+        perceive();
         System.out.println("I'm a " + rc.getType() + " and I just got created!");
         while (true) {
             turnCount += 1;
@@ -95,6 +100,19 @@ public strictfp class RobotPlayer {
         locations.sort(Comparator.comparingInt((MapLocation m) -> rc.getLocation().distanceSquaredTo(m)));
 
         return locations;
+    }
+
+    // updates known map
+    static void perceive(){
+        for(MapLocation loc : getMapLocationsInRadius(rc.getType())){
+            try {
+                knownMap.get(loc).put("soup",rc.senseSoup(loc));
+                knownMap.get(loc).put("elevation",rc.senseElevation(loc));
+                knownMap.get(loc).put("flooding",rc.senseFlooding(loc));
+            } catch (GameActionException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
