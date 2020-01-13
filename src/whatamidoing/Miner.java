@@ -12,7 +12,7 @@ public class Miner extends RobotPlayer {
 
     RobotInfo hq;
     MapLocation hqloc;
-    static void initiateMiner() throws GameActionException {
+    static void initializeMiner() throws GameActionException {
         RobotInfo hq = rc.senseNearbyRobots(3, rc.getTeam())[0];
         MapLocation hqloc = hq.getLocation();
     }

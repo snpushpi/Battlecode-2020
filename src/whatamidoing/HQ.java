@@ -9,6 +9,15 @@ import java.util.ArrayList;
 
 public class HQ extends RobotPlayer {
 
+    static int numMinersCreated;
+    static int numLandscapersCreated;
+    static int numDronesCreated;
+
+    static void initializeHQ() throws GameActionException{
+        numMinersCreated = 0;
+        numLandscapersCreated = 0;
+        numDronesCreated = 0;
+    }
 
     static void runHQ() throws GameActionException {
         if (turnCount == 1 || rc.getTeamSoup() > 400) { // Spawn Miners by Default if not doing anything else

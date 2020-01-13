@@ -34,6 +34,19 @@ public strictfp class RobotPlayer {
         knownMap = new HashMap<>();
         /// perceive(); //// buggy so I'll leave this out for sprint submission
         System.out.println("I'm a " + rc.getType() + " and I just got created!");
+
+        //runs initial code
+        switch(rc.getType()) {
+            case HQ:
+                HQ.initializeHQ();
+                break;
+            case MINER:
+                Miner.initializeMiner();
+                break;
+        }
+
+
+
         while (true) {
             turnCount += 1;
             // Try/catch blocks stop unhandled exceptions, which cause your robot to explode
